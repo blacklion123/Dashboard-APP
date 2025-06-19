@@ -9,7 +9,6 @@ import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/
 import { 
   BarChart, 
   Bar, 
-  LineChart, 
   Line, 
   XAxis, 
   YAxis, 
@@ -19,70 +18,174 @@ import {
   Pie,
   Cell,
   AreaChart,
-  Area
+  Area,
+  ComposedChart
 } from "recharts"
 import { 
   TrendingUp, 
-  TrendingDown, 
+  TrendingDown,
   Users, 
   DollarSign, 
   GraduationCap, 
   Target,
-  Calendar,
   Star,
-  BookOpen,
   Award,
   Clock,
   Mail,
   Phone,
-  UserCheck
+  UserCheck,
+  ShoppingCart,
+  AlertTriangle,
+  BarChart3,
+  PieChart as PieChartIcon
 } from "lucide-react"
 
-// Mock data - replace with actual data from your API
-const kpiData = {
-  totalRevenue: 125000,
-  totalStudents: 1245,
-  courseCompletion: 78,
-  customerSat: 4.8,
-  monthlySales: [
-    { month: "Jan", revenue: 65000, students: 200, completion: 75 },
-    { month: "Feb", revenue: 72000, students: 230, completion: 77 },
-    { month: "Mar", revenue: 68000, students: 210, completion: 79 },
-    { month: "Apr", revenue: 85000, students: 280, completion: 81 },
-    { month: "May", revenue: 125000, students: 325, completion: 78 }
-  ],
-  revenueBySource: [
-    { name: "Direct Sales", value: 45000, color: "#8884d8" },
-    { name: "Partnerships", value: 35000, color: "#82ca9d" },
-    { name: "Referrals", value: 25000, color: "#ffc658" },
-    { name: "Marketing", value: 20000, color: "#ff7300" }
-  ],
-  topCourses: [
-    { name: "Mathematics Advanced", students: 456, revenue: 45600, rating: 4.9 },
-    { name: "Physics Complete", students: 389, revenue: 38900, rating: 4.8 },
-    { name: "Chemistry Mastery", students: 234, revenue: 23400, rating: 4.7 },
-    { name: "Biology Intensive", students: 166, revenue: 16600, rating: 4.6 }
-  ],
-  financialMetrics: {
-    grossMargin: 85,
-    netMargin: 22,
-    costPerAcquisition: 45,
-    lifetimeValue: 890,
-    churnRate: 3.2,
-    growthRate: 15.4
+// UCADEMY Actual Financial Data
+const ucademyData = {
+  // Executive Summary - Latest Month (May 2025)
+  latestMonth: {
+    revenue: 66372,
+    grossProfit: 62970,
+    totalExpenses: 58100,
+    profit: 4870,
+    newEnrollments: 54,
+    adSpend: 6407,
+    refunds: 3391,
+    cogs: 18977,
+    cac: 13855,
+    opex: 19067
   },
-  studentMetrics: {
-    totalActive: 1245,
-    newThisMonth: 325,
-    retentionRate: 96.8,
-    avgSessionTime: 42,
-    completionRate: 78.5,
-    satisfactionScore: 4.8
+
+  // Monthly P&L Data (Jan-May 2025)
+  monthlyData: [
+    { 
+      month: "Jan", 
+      revenue: 71386, 
+      grossProfit: 66500, 
+      totalExpenses: 51290, 
+      profit: 15210,
+      enrollments: 63,
+      adSpend: 7389,
+      refunds: 4875,
+      cogs: 14934,
+      cac: 15883,
+      contributionMargin: 35682,
+      withdrawnAccounts: 25
+    },
+    { 
+      month: "Feb", 
+      revenue: 67174, 
+      grossProfit: 63289, 
+      totalExpenses: 56293, 
+      profit: 6996,
+      enrollments: 41,
+      adSpend: 6732,
+      refunds: 3885,
+      cogs: 14885,
+      cac: 16510,
+      contributionMargin: 31916,
+      withdrawnAccounts: 13
+    },
+    { 
+      month: "Mar", 
+      revenue: 69531, 
+      grossProfit: 65338, 
+      totalExpenses: 57873, 
+      profit: 7464,
+      enrollments: 45,
+      adSpend: 7158,
+      refunds: 4182,
+      cogs: 14369,
+      cac: 16230,
+      contributionMargin: 34739,
+      withdrawnAccounts: 15
+    },
+    { 
+      month: "Apr", 
+      revenue: 66349, 
+      grossProfit: 61524, 
+      totalExpenses: 59641, 
+      profit: 1883,
+      enrollments: 38,
+      adSpend: 7541,
+      refunds: 4814,
+      cogs: 18895,
+      cac: 16667,
+      contributionMargin: 25962,
+      withdrawnAccounts: 19
+    },
+    { 
+      month: "May", 
+      revenue: 66372, 
+      grossProfit: 62970, 
+      totalExpenses: 58100, 
+      profit: 4870,
+      enrollments: 54,
+      adSpend: 6407,
+      refunds: 3391,
+      cogs: 18977,
+      cac: 13855,
+      contributionMargin: 30138,
+      withdrawnAccounts: 19
+    }
+  ],
+
+  // Cost Breakdown (May 2025)
+  costBreakdown: [
+    { name: "COGS", value: 18977, color: "#8884d8" },
+    { name: "Customer Acquisition (CAC)", value: 13855, color: "#82ca9d" },
+    { name: "Operating Expenses", value: 19067, color: "#ffc658" },
+    { name: "Other Expenses", value: 6201, color: "#ff7300" }
+  ],
+
+  // Marketing KPIs (Latest Month)
+  marketingKPIs: {
+    adSpend: 5847,
+    costPerLead: 15,
+    totalImpressions: 376710,
+    avgCTR: 1.0,
+    linkClicks: 1972,
+    totalLeads: 392
+  },
+
+  // Customer Success KPIs (Latest Month)
+  customerSuccessKPIs: {
+    onboardingMeetings: 235,
+    avgOnboardingGap: 1.32,
+    clientsDueRmeets40: 26,
+    clientsDueRmeets100: 4,
+    dangerStudents: 2
+  },
+
+  // YTD Totals
+  ytdTotals: {
+    revenue: 340812,
+    grossProfit: 319621,
+    totalExpenses: 283197,
+    profit: 36424,
+    enrollments: 241,
+    withdrawnAccounts: 91
+  },
+
+  // First Order Profitability (Latest Month)
+  firstOrderProfitability: {
+    avgDealSize: 196.07,
+    estimatedCOGS: 351.43,
+    estimatedCAC: 256.58,
+    estimatedOPEX: 353.10,
+    firstOrderProfit: -411.94,
+    netFirstOrderProfit: -765.03
   }
 }
 
-export default function ExecutiveDashboard() {
+export default function UcademyExecutiveDashboard() {
   const currentMonth = "May 2025"
+  const currentData = ucademyData.latestMonth
+  
+  // Calculate key metrics
+  const grossMargin = ((currentData.grossProfit / currentData.revenue) * 100)
+  const profitMargin = ((currentData.profit / currentData.revenue) * 100)
+  const refundRate = ((currentData.refunds / currentData.revenue) * 100)
   
   return (
     <div className="min-h-screen bg-gray-50 p-6">
@@ -90,8 +193,8 @@ export default function ExecutiveDashboard() {
         {/* Header */}
         <div className="flex justify-between items-center">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Executive Dashboard</h1>
-            <p className="text-gray-600">UCADEMY Monthly KPI & Finance Report - {currentMonth}</p>
+            <h1 className="text-3xl font-bold text-gray-900">UCADEMY Executive Dashboard</h1>
+            <p className="text-gray-600">Complete Financial Metrics Report - {currentMonth}</p>
           </div>
           <div className="flex gap-2">
             <Button variant="outline">Export Report</Button>
@@ -99,19 +202,19 @@ export default function ExecutiveDashboard() {
           </div>
         </div>
 
-        {/* Key Metrics Overview */}
+        {/* Key Executive Metrics */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
+              <CardTitle className="text-sm font-medium">Monthly Revenue</CardTitle>
               <DollarSign className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">${kpiData.totalRevenue.toLocaleString()}</div>
+              <div className="text-2xl font-bold">£{currentData.revenue.toLocaleString()}</div>
               <p className="text-xs text-muted-foreground">
-                <span className="text-green-600 flex items-center">
-                  <TrendingUp className="h-3 w-3 mr-1" />
-                  +15.4% from last month
+                <span className={`flex items-center ${currentData.revenue > 67000 ? 'text-red-600' : 'text-green-600'}`}>
+                  {currentData.revenue > 67000 ? <TrendingDown className="h-3 w-3 mr-1" /> : <TrendingUp className="h-3 w-3 mr-1" />}
+                  vs. Feb high of £67,174
                 </span>
               </p>
             </CardContent>
@@ -119,15 +222,28 @@ export default function ExecutiveDashboard() {
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Students</CardTitle>
+              <CardTitle className="text-sm font-medium">Net Profit</CardTitle>
+              <TrendingUp className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold text-green-600">£{currentData.profit.toLocaleString()}</div>
+              <p className="text-xs text-muted-foreground">
+                Profit margin: {profitMargin.toFixed(1)}%
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">New Enrollments</CardTitle>
               <Users className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{kpiData.totalStudents.toLocaleString()}</div>
+              <div className="text-2xl font-bold">{currentData.newEnrollments}</div>
               <p className="text-xs text-muted-foreground">
                 <span className="text-green-600 flex items-center">
                   <TrendingUp className="h-3 w-3 mr-1" />
-                  +325 new this month
+                  +42% vs. April
                 </span>
               </p>
             </CardContent>
@@ -135,51 +251,34 @@ export default function ExecutiveDashboard() {
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Course Completion</CardTitle>
-              <GraduationCap className="h-4 w-4 text-muted-foreground" />
+              <CardTitle className="text-sm font-medium">Gross Margin</CardTitle>
+              <BarChart3 className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{kpiData.courseCompletion}%</div>
-              <Progress value={kpiData.courseCompletion} className="mt-2" />
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Customer Satisfaction</CardTitle>
-              <Star className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{kpiData.customerSat}/5.0</div>
-              <div className="flex mt-1">
-                {[1,2,3,4,5].map((star) => (
-                  <Star 
-                    key={star} 
-                    className={`h-3 w-3 ${star <= Math.floor(kpiData.customerSat) ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'}`} 
-                  />
-                ))}
-              </div>
+              <div className="text-2xl font-bold">{grossMargin.toFixed(1)}%</div>
+              <Progress value={grossMargin} className="mt-2" />
             </CardContent>
           </Card>
         </div>
 
         {/* Main Content Tabs */}
         <Tabs defaultValue="overview" className="space-y-4">
-          <TabsList className="grid w-full grid-cols-4">
+          <TabsList className="grid w-full grid-cols-5">
             <TabsTrigger value="overview">Overview</TabsTrigger>
             <TabsTrigger value="financial">Financial</TabsTrigger>
-            <TabsTrigger value="students">Students</TabsTrigger>
-            <TabsTrigger value="courses">Courses</TabsTrigger>
+            <TabsTrigger value="sales">Sales & Marketing</TabsTrigger>
+            <TabsTrigger value="operations">Operations</TabsTrigger>
+            <TabsTrigger value="profitability">Profitability</TabsTrigger>
           </TabsList>
 
           {/* Overview Tab */}
           <TabsContent value="overview" className="space-y-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {/* Revenue Trend */}
+              {/* Monthly Revenue & Profit Trend */}
               <Card>
                 <CardHeader>
-                  <CardTitle>Monthly Revenue Trend</CardTitle>
-                  <CardDescription>Revenue performance over the last 5 months</CardDescription>
+                  <CardTitle>Revenue vs Profit Trend</CardTitle>
+                  <CardDescription>Monthly performance January - May 2025</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <ChartContainer
@@ -188,39 +287,43 @@ export default function ExecutiveDashboard() {
                         label: "Revenue",
                         color: "hsl(var(--chart-1))",
                       },
+                      profit: {
+                        label: "Profit",
+                        color: "hsl(var(--chart-2))",
+                      },
                     }}
                     className="h-[300px]"
                   >
                     <ResponsiveContainer width="100%" height="100%">
-                      <AreaChart data={kpiData.monthlySales}>
+                      <ComposedChart data={ucademyData.monthlyData}>
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis dataKey="month" />
                         <YAxis />
                         <ChartTooltip content={<ChartTooltipContent />} />
-                        <Area 
+                        <Bar dataKey="revenue" fill="hsl(var(--chart-1))" />
+                        <Line 
                           type="monotone" 
-                          dataKey="revenue" 
-                          stroke="hsl(var(--chart-1))" 
-                          fill="hsl(var(--chart-1))" 
-                          fillOpacity={0.2}
+                          dataKey="profit" 
+                          stroke="hsl(var(--chart-2))" 
+                          strokeWidth={3}
                         />
-                      </AreaChart>
+                      </ComposedChart>
                     </ResponsiveContainer>
                   </ChartContainer>
                 </CardContent>
               </Card>
 
-              {/* Revenue by Source */}
+              {/* Cost Breakdown */}
               <Card>
                 <CardHeader>
-                  <CardTitle>Revenue by Source</CardTitle>
-                  <CardDescription>Breakdown of revenue sources this month</CardDescription>
+                  <CardTitle>Cost Breakdown - May 2025</CardTitle>
+                  <CardDescription>Distribution of major cost categories</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <ChartContainer
                     config={{
                       value: {
-                        label: "Value",
+                        label: "Amount (£)",
                       },
                     }}
                     className="h-[300px]"
@@ -228,7 +331,7 @@ export default function ExecutiveDashboard() {
                     <ResponsiveContainer width="100%" height="100%">
                       <PieChart>
                         <Pie
-                          data={kpiData.revenueBySource}
+                          data={ucademyData.costBreakdown}
                           cx="50%"
                           cy="50%"
                           outerRadius={80}
@@ -236,7 +339,7 @@ export default function ExecutiveDashboard() {
                           dataKey="value"
                           label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
                         >
-                          {kpiData.revenueBySource.map((entry, index) => (
+                          {ucademyData.costBreakdown.map((entry, index) => (
                             <Cell key={`cell-${index}`} fill={entry.color} />
                           ))}
                         </Pie>
@@ -248,35 +351,34 @@ export default function ExecutiveDashboard() {
               </Card>
             </div>
 
-            {/* Student Growth */}
+            {/* Enrollments vs Withdrawals */}
             <Card>
               <CardHeader>
-                <CardTitle>Student Growth & Completion Rate</CardTitle>
-                <CardDescription>Monthly student acquisition and course completion trends</CardDescription>
+                <CardTitle>Student Enrollment vs Withdrawal Trends</CardTitle>
+                <CardDescription>Monthly enrollment and withdrawal patterns</CardDescription>
               </CardHeader>
               <CardContent>
                 <ChartContainer
                   config={{
-                    students: {
-                      label: "New Students",
-                      color: "hsl(var(--chart-2))",
-                    },
-                    completion: {
-                      label: "Completion Rate",
+                    enrollments: {
+                      label: "New Enrollments",
                       color: "hsl(var(--chart-3))",
+                    },
+                    withdrawnAccounts: {
+                      label: "Withdrawn Accounts",
+                      color: "hsl(var(--chart-4))",
                     },
                   }}
                   className="h-[300px]"
                 >
                   <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={kpiData.monthlySales}>
+                    <BarChart data={ucademyData.monthlyData}>
                       <CartesianGrid strokeDasharray="3 3" />
                       <XAxis dataKey="month" />
-                      <YAxis yAxisId="left" />
-                      <YAxis yAxisId="right" orientation="right" />
+                      <YAxis />
                       <ChartTooltip content={<ChartTooltipContent />} />
-                      <Bar yAxisId="left" dataKey="students" fill="hsl(var(--chart-2))" />
-                      <Line yAxisId="right" type="monotone" dataKey="completion" stroke="hsl(var(--chart-3))" strokeWidth={3} />
+                      <Bar dataKey="enrollments" fill="hsl(var(--chart-3))" />
+                      <Bar dataKey="withdrawnAccounts" fill="hsl(var(--chart-4))" />
                     </BarChart>
                   </ResponsiveContainer>
                 </ChartContainer>
@@ -289,199 +391,340 @@ export default function ExecutiveDashboard() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               <Card>
                 <CardHeader>
-                  <CardTitle>Gross Margin</CardTitle>
+                  <CardTitle>YTD Revenue</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-3xl font-bold text-green-600">{kpiData.financialMetrics.grossMargin}%</div>
-                  <Progress value={kpiData.financialMetrics.grossMargin} className="mt-2" />
+                  <div className="text-3xl font-bold text-green-600">£{ucademyData.ytdTotals.revenue.toLocaleString()}</div>
+                  <p className="text-sm text-muted-foreground">Jan-May 2025</p>
                 </CardContent>
               </Card>
 
               <Card>
                 <CardHeader>
-                  <CardTitle>Net Margin</CardTitle>
+                  <CardTitle>YTD Gross Profit</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-3xl font-bold text-blue-600">{kpiData.financialMetrics.netMargin}%</div>
-                  <Progress value={kpiData.financialMetrics.netMargin} className="mt-2" />
+                  <div className="text-3xl font-bold text-blue-600">£{ucademyData.ytdTotals.grossProfit.toLocaleString()}</div>
+                  <p className="text-sm text-muted-foreground">Total gross profit</p>
                 </CardContent>
               </Card>
 
               <Card>
                 <CardHeader>
-                  <CardTitle>Customer LTV</CardTitle>
+                  <CardTitle>YTD Net Profit</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-3xl font-bold">${kpiData.financialMetrics.lifetimeValue}</div>
-                  <p className="text-sm text-muted-foreground">Average lifetime value</p>
+                  <div className="text-3xl font-bold text-green-600">£{ucademyData.ytdTotals.profit.toLocaleString()}</div>
+                  <p className="text-sm text-muted-foreground">After all expenses</p>
                 </CardContent>
               </Card>
 
               <Card>
                 <CardHeader>
-                  <CardTitle>CAC</CardTitle>
+                  <CardTitle>COGS (May)</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-3xl font-bold">${kpiData.financialMetrics.costPerAcquisition}</div>
-                  <p className="text-sm text-muted-foreground">Cost per acquisition</p>
+                  <div className="text-3xl font-bold">£{currentData.cogs.toLocaleString()}</div>
+                  <p className="text-sm text-muted-foreground">{((currentData.cogs/currentData.revenue)*100).toFixed(1)}% of revenue</p>
                 </CardContent>
               </Card>
 
               <Card>
                 <CardHeader>
-                  <CardTitle>Churn Rate</CardTitle>
+                  <CardTitle>CAC (May)</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-3xl font-bold text-red-600">{kpiData.financialMetrics.churnRate}%</div>
-                  <p className="text-sm text-muted-foreground">Monthly churn rate</p>
+                  <div className="text-3xl font-bold">£{currentData.cac.toLocaleString()}</div>
+                  <p className="text-sm text-muted-foreground">{((currentData.cac/currentData.revenue)*100).toFixed(1)}% of revenue</p>
                 </CardContent>
               </Card>
 
               <Card>
                 <CardHeader>
-                  <CardTitle>Growth Rate</CardTitle>
+                  <CardTitle>Refund Rate</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-3xl font-bold text-green-600">+{kpiData.financialMetrics.growthRate}%</div>
-                  <p className="text-sm text-muted-foreground">Month-over-month</p>
+                  <div className="text-3xl font-bold text-orange-600">{refundRate.toFixed(1)}%</div>
+                  <p className="text-sm text-muted-foreground">£{currentData.refunds.toLocaleString()} refunded</p>
                 </CardContent>
               </Card>
             </div>
 
-            {/* LTV/CAC Ratio */}
+            {/* Contribution Margin Trend */}
             <Card>
               <CardHeader>
-                <CardTitle>LTV/CAC Ratio Analysis</CardTitle>
-                <CardDescription>Customer lifetime value to acquisition cost ratio</CardDescription>
+                <CardTitle>Contribution Margin Analysis</CardTitle>
+                <CardDescription>Monthly contribution margin after COGS and CAC</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="text-4xl font-bold text-green-600">
-                  {(kpiData.financialMetrics.lifetimeValue / kpiData.financialMetrics.costPerAcquisition).toFixed(1)}:1
-                </div>
-                <p className="text-sm text-muted-foreground mt-2">
-                  Excellent ratio (target: 3:1 or higher)
-                </p>
-                <Progress 
-                  value={Math.min(100, (kpiData.financialMetrics.lifetimeValue / kpiData.financialMetrics.costPerAcquisition / 3) * 100)} 
-                  className="mt-4" 
-                />
+                <ChartContainer
+                  config={{
+                    contributionMargin: {
+                      label: "Contribution Margin",
+                      color: "hsl(var(--chart-5))",
+                    },
+                  }}
+                  className="h-[300px]"
+                >
+                  <ResponsiveContainer width="100%" height="100%">
+                    <AreaChart data={ucademyData.monthlyData}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="month" />
+                      <YAxis />
+                      <ChartTooltip content={<ChartTooltipContent />} />
+                      <Area 
+                        type="monotone" 
+                        dataKey="contributionMargin" 
+                        stroke="hsl(var(--chart-5))" 
+                        fill="hsl(var(--chart-5))" 
+                        fillOpacity={0.2}
+                      />
+                    </AreaChart>
+                  </ResponsiveContainer>
+                </ChartContainer>
               </CardContent>
             </Card>
           </TabsContent>
 
-          {/* Students Tab */}
-          <TabsContent value="students" className="space-y-6">
+          {/* Sales & Marketing Tab */}
+          <TabsContent value="sales" className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">Total Active Students</CardTitle>
-                  <UserCheck className="h-4 w-4 text-muted-foreground" />
+                  <CardTitle className="text-sm font-medium">Ad Spend (May)</CardTitle>
+                  <Target className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">{kpiData.studentMetrics.totalActive.toLocaleString()}</div>
-                  <p className="text-xs text-muted-foreground">Currently enrolled</p>
+                  <div className="text-2xl font-bold">£{ucademyData.marketingKPIs.adSpend.toLocaleString()}</div>
+                  <p className="text-xs text-muted-foreground">Cost per lead: £{ucademyData.marketingKPIs.costPerLead}</p>
                 </CardContent>
               </Card>
 
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">New Students</CardTitle>
+                  <CardTitle className="text-sm font-medium">Total Impressions</CardTitle>
+                  <Star className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">{ucademyData.marketingKPIs.totalImpressions.toLocaleString()}</div>
+                  <p className="text-xs text-muted-foreground">CTR: {ucademyData.marketingKPIs.avgCTR}%</p>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">Total Leads</CardTitle>
                   <Users className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">{kpiData.studentMetrics.newThisMonth}</div>
-                  <p className="text-xs text-muted-foreground">This month</p>
+                  <div className="text-2xl font-bold">{ucademyData.marketingKPIs.totalLeads}</div>
+                  <p className="text-xs text-muted-foreground">{ucademyData.marketingKPIs.linkClicks.toLocaleString()} link clicks</p>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">YTD Enrollments</CardTitle>
+                  <GraduationCap className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">{ucademyData.ytdTotals.enrollments}</div>
+                  <p className="text-xs text-muted-foreground">Total new students</p>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">YTD Withdrawals</CardTitle>
+                  <AlertTriangle className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold text-red-600">{ucademyData.ytdTotals.withdrawnAccounts}</div>
+                  <p className="text-xs text-muted-foreground">Total withdrawn accounts</p>
                 </CardContent>
               </Card>
 
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">Retention Rate</CardTitle>
-                  <Target className="h-4 w-4 text-muted-foreground" />
+                  <UserCheck className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold text-green-600">{kpiData.studentMetrics.retentionRate}%</div>
-                  <Progress value={kpiData.studentMetrics.retentionRate} className="mt-2" />
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">Avg Session Time</CardTitle>
-                  <Clock className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">{kpiData.studentMetrics.avgSessionTime} min</div>
-                  <p className="text-xs text-muted-foreground">Per study session</p>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">Completion Rate</CardTitle>
-                  <Award className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">{kpiData.studentMetrics.completionRate}%</div>
-                  <Progress value={kpiData.studentMetrics.completionRate} className="mt-2" />
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">Satisfaction Score</CardTitle>
-                  <Star className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">{kpiData.studentMetrics.satisfactionScore}/5.0</div>
-                  <div className="flex mt-1">
-                    {[1,2,3,4,5].map((star) => (
-                      <Star 
-                        key={star} 
-                        className={`h-3 w-3 ${star <= Math.floor(kpiData.studentMetrics.satisfactionScore) ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'}`} 
-                      />
-                    ))}
+                  <div className="text-2xl font-bold text-green-600">
+                    {(((ucademyData.ytdTotals.enrollments - ucademyData.ytdTotals.withdrawnAccounts) / ucademyData.ytdTotals.enrollments) * 100).toFixed(1)}%
                   </div>
+                  <p className="text-xs text-muted-foreground">Student retention</p>
                 </CardContent>
               </Card>
             </div>
           </TabsContent>
 
-          {/* Courses Tab */}
-          <TabsContent value="courses" className="space-y-6">
-            <Card>
+          {/* Operations Tab */}
+          <TabsContent value="operations" className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">Client Meetings (May)</CardTitle>
+                  <Clock className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">{ucademyData.customerSuccessKPIs.onboardingMeetings}</div>
+                  <p className="text-xs text-muted-foreground">Onboarding & review meetings</p>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">Avg Onboarding Gap</CardTitle>
+                  <Award className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">{ucademyData.customerSuccessKPIs.avgOnboardingGap} days</div>
+                  <p className="text-xs text-muted-foreground">Time to first meeting</p>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">Danger Students</CardTitle>
+                  <AlertTriangle className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold text-red-600">{ucademyData.customerSuccessKPIs.dangerStudents}</div>
+                  <p className="text-xs text-muted-foreground">Requiring attention</p>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">Due for Review (+40 days)</CardTitle>
+                  <Clock className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold text-orange-600">{ucademyData.customerSuccessKPIs.clientsDueRmeets40}</div>
+                  <p className="text-xs text-muted-foreground">Clients overdue</p>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">Due for Review (+100 days)</CardTitle>
+                  <AlertTriangle className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold text-red-600">{ucademyData.customerSuccessKPIs.clientsDueRmeets100}</div>
+                  <p className="text-xs text-muted-foreground">Critical attention needed</p>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">Operating Expenses (May)</CardTitle>
+                  <DollarSign className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">£{currentData.opex.toLocaleString()}</div>
+                  <p className="text-xs text-muted-foreground">{((currentData.opex/currentData.revenue)*100).toFixed(1)}% of revenue</p>
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
+
+          {/* Profitability Tab */}
+          <TabsContent value="profitability" className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle>First Order Profitability (May)</CardTitle>
+                  <CardDescription>Per-customer profitability analysis</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="flex justify-between">
+                    <span>Average Deal Size:</span>
+                    <span className="font-semibold">£{ucademyData.firstOrderProfitability.avgDealSize}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Estimated COGS per Sale:</span>
+                    <span className="font-semibold text-red-600">-£{ucademyData.firstOrderProfitability.estimatedCOGS}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Estimated CAC per Sale:</span>
+                    <span className="font-semibold text-red-600">-£{ucademyData.firstOrderProfitability.estimatedCAC}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Estimated OPEX per Sale:</span>
+                    <span className="font-semibold text-red-600">-£{ucademyData.firstOrderProfitability.estimatedOPEX}</span>
+                  </div>
+                  <hr />
+                  <div className="flex justify-between text-lg font-bold">
+                    <span>Net First Order Profitability:</span>
+                    <span className="text-red-600">£{ucademyData.firstOrderProfitability.netFirstOrderProfit}</span>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle>Key Profitability Metrics</CardTitle>
+                  <CardDescription>Critical financial ratios and margins</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div>
+                    <div className="flex justify-between mb-2">
+                      <span>Gross Margin</span>
+                      <span className="font-semibold">{grossMargin.toFixed(1)}%</span>
+                    </div>
+                    <Progress value={grossMargin} />
+                  </div>
+                  
+                  <div>
+                    <div className="flex justify-between mb-2">
+                      <span>Net Profit Margin</span>
+                      <span className="font-semibold">{profitMargin.toFixed(1)}%</span>
+                    </div>
+                    <Progress value={Math.max(0, profitMargin)} />
+                  </div>
+                  
+                  <div>
+                    <div className="flex justify-between mb-2">
+                      <span>COGS as % of Revenue</span>
+                      <span className="font-semibold">{((currentData.cogs/currentData.revenue)*100).toFixed(1)}%</span>
+                    </div>
+                    <Progress value={(currentData.cogs/currentData.revenue)*100} />
+                  </div>
+                  
+                  <div>
+                    <div className="flex justify-between mb-2">
+                      <span>CAC as % of Revenue</span>
+                      <span className="font-semibold">{((currentData.cac/currentData.revenue)*100).toFixed(1)}%</span>
+                    </div>
+                    <Progress value={(currentData.cac/currentData.revenue)*100} />
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Profitability Alert */}
+            <Card className="border-red-200">
               <CardHeader>
-                <CardTitle>Top Performing Courses</CardTitle>
-                <CardDescription>Course performance by student enrollment and revenue</CardDescription>
+                <CardTitle className="text-red-600 flex items-center">
+                  <AlertTriangle className="h-5 w-5 mr-2" />
+                  Profitability Alert
+                </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="space-y-4">
-                  {kpiData.topCourses.map((course, index) => (
-                    <div key={index} className="flex items-center justify-between p-4 border rounded-lg">
-                      <div className="space-y-1">
-                        <h3 className="font-semibold">{course.name}</h3>
-                        <div className="flex items-center space-x-4 text-sm text-muted-foreground">
-                          <span className="flex items-center">
-                            <Users className="h-3 w-3 mr-1" />
-                            {course.students} students
-                          </span>
-                          <span className="flex items-center">
-                            <DollarSign className="h-3 w-3 mr-1" />
-                            ${course.revenue.toLocaleString()}
-                          </span>
-                          <span className="flex items-center">
-                            <Star className="h-3 w-3 mr-1 text-yellow-400 fill-yellow-400" />
-                            {course.rating}
-                          </span>
-                        </div>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <Badge variant="secondary">#{index + 1}</Badge>
-                        <Button variant="outline" size="sm">View Details</Button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
+                <p className="text-red-600">
+                  <strong>First Order Profitability is negative (£{ucademyData.firstOrderProfitability.netFirstOrderProfit}).</strong>
+                </p>
+                <p className="mt-2 text-gray-600">
+                  This indicates that new customers are not profitable on first purchase. Consider:
+                </p>
+                <ul className="mt-2 list-disc list-inside text-gray-600 space-y-1">
+                  <li>Increasing average deal size through upselling</li>
+                  <li>Reducing customer acquisition costs</li>
+                  <li>Optimizing operational efficiency</li>
+                  <li>Focusing on customer lifetime value optimization</li>
+                </ul>
               </CardContent>
             </Card>
           </TabsContent>
@@ -491,15 +734,15 @@ export default function ExecutiveDashboard() {
         <Card>
           <CardContent className="pt-6">
             <div className="flex justify-between items-center text-sm text-muted-foreground">
-              <p>Last updated: {new Date().toLocaleString()}</p>
+              <p>Report generated: {new Date().toLocaleString()} | Data period: January - May 2025</p>
               <div className="flex items-center space-x-4">
                 <span className="flex items-center">
                   <Mail className="h-4 w-4 mr-1" />
-                  analytics@ucademy.com
+                  finance@ucademy.co.uk
                 </span>
                 <span className="flex items-center">
                   <Phone className="h-4 w-4 mr-1" />
-                  +1 (555) 123-4567
+                  +44 (0) 20 1234 5678
                 </span>
               </div>
             </div>
