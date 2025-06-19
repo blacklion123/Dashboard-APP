@@ -1,0 +1,161 @@
+{
+  "analysis_summary": {
+    "files_analyzed": [
+      {
+        "name": "Revenue & Salary.xlsx",
+        "path": "/Users/usmanrana/Downloads/Revenue & Salary.xlsx",
+        "sheets": ["Revenue & Salary"],
+        "data_period": "November 2024 - May 2025"
+      },
+      {
+        "name": "13-Week Forecast.xlsx", 
+        "path": "/Users/usmanrana/Downloads/13-Week Forecast.xlsx",
+        "sheets": ["Expense Schedule", "Sales", "Expenses", "Cashflow Projection", "Forecast vs Actuals", "Cashflow Projection - Updated"],
+        "data_period": "13-week forecast period with weekly granularity"
+      }
+    ]
+  },
+  "revenue_salary_data": {
+    "revenue": {
+      "months": ["Nov 2024", "Dec 2024", "Jan 2025", "Feb 2025", "Mar 2025", "Apr 2025", "May 2025"],
+      "values": [58548.61, 64390.12, 71386.29, 67174.09, 69530.79, 66348.98, 50578.1],
+      "total": 447956.98,
+      "average": 63993.85,
+      "highest_month": {"month": "Jan 2025", "value": 71386.29},
+      "lowest_month": {"month": "May 2025", "value": 50578.1}
+    },
+    "expenses": {
+      "taxes": {
+        "months": ["Nov 2024", "Dec 2024", "Jan 2025", "Feb 2025", "Mar 2025", "Apr 2025", "May 2025"],
+        "values": [10.8, 0, 10.8, 0, 10.8, 10.8, 10.8],
+        "total": 54.0
+      },
+      "refunds": {
+        "months": ["Nov 2024", "Dec 2024", "Jan 2025", "Feb 2025", "Mar 2025", "Apr 2025", "May 2025"],
+        "values": [1930.5, 4460.48, 4875.45, 3884.76, 4182.42, 4814.13, 1558.91],
+        "total": 25706.65,
+        "average": 3672.38,
+        "highest_month": {"month": "Jan 2025", "value": 4875.45}
+      },
+      "salary": {
+        "months": ["Nov 2024", "Dec 2024", "Jan 2025", "Feb 2025", "Mar 2025", "Apr 2025", "May 2025"],
+        "values": [31247.99, 30087.03, 27084.01, 30961.75, 36803.6, 45536.12, 0],
+        "total": 201720.5,
+        "average": 33620.08,
+        "highest_month": {"month": "Apr 2025", "value": 45536.12},
+        "trend": "Significant increase from March to April 2025"
+      }
+    }
+  },
+  "forecast_data": {
+    "weekly_forecast": {
+      "gross_revenue": [
+        {"period": "Dec 2025", "value": 64329.12},
+        {"period": "Jan 2025", "value": 71386.29},
+        {"period": "Feb 2025", "value": 67174.09},
+        {"period": "Mar 2025", "value": 69530.79},
+        {"period": "Week 1", "value": 13596.89},
+        {"period": "Week 2", "value": 20564.05},
+        {"period": "Week 3", "value": 15942.2},
+        {"period": "Week 4", "value": 17834.15},
+        {"period": "Week 5", "value": 13901.29},
+        {"period": "Week 6", "value": 12669.0},
+        {"period": "Week 7", "value": 18109.3},
+        {"period": "Week 8", "value": 15691.188},
+        {"period": "Week 9", "value": 15640.9856},
+        {"period": "Week 10", "value": 15202.35272},
+        {"period": "Week 11", "value": 15462.565264},
+        {"period": "Week 12", "value": 16021.278317},
+        {"period": "Week 13", "value": 15603.67398}
+      ]
+    },
+    "monthly_expenses": {
+      "marketing_ad": {
+        "months": ["Nov 2024", "Dec 2024", "Jan 2025", "Feb 2025", "Mar 2025"],
+        "values": [7103.85, 6943.86, 7389.05, 6731.63, 7158.11],
+        "average": 7065.3
+      },
+      "payroll": {
+        "months": ["Nov 2024", "Dec 2024", "Jan 2025", "Feb 2025", "Mar 2025"],
+        "values": [29870, 30310.7, 32403.84, 36044.53, 35912.55],
+        "average": 32908.32
+      }
+    },
+    "new_enrollments": {
+      "monthly": [50, 63, 41, 45],
+      "weekly_forecast": [15, 13, 13, 12, 3, 8, 10, 9.2, 8.44, 7.73, 8.67, 8.81, 8.57]
+    }
+  },
+  "key_metrics": {
+    "total_revenue_7_months": 447956.98,
+    "total_expenses_7_months": 227481.15,
+    "net_profit_7_months": 220475.83,
+    "average_monthly_revenue": 63993.85,
+    "average_monthly_expenses": 32497.31,
+    "profit_margin": 49.2,
+    "revenue_growth_rate": -29.1,
+    "top_expense_categories": [
+      {"category": "Salary", "amount": 201720.5, "percentage": 88.7},
+      {"category": "Refunds", "amount": 25706.65, "percentage": 11.3}
+    ]
+  },
+  "dashboard_visualizations": {
+    "recommended_charts": [
+      {
+        "type": "line_chart",
+        "title": "Revenue Trend Over Time",
+        "data": "revenue.values",
+        "x_axis": "revenue.months",
+        "color": "#2563eb"
+      },
+      {
+        "type": "bar_chart", 
+        "title": "Monthly Expenses Breakdown",
+        "data": ["salary.values", "refunds.values", "taxes.values"],
+        "x_axis": "months",
+        "colors": ["#dc2626", "#ea580c", "#65a30d"]
+      },
+      {
+        "type": "area_chart",
+        "title": "13-Week Revenue Forecast",
+        "data": "forecast_data.weekly_forecast.gross_revenue",
+        "color": "#059669"
+      },
+      {
+        "type": "donut_chart",
+        "title": "Expense Distribution",
+        "data": "top_expense_categories",
+        "colors": ["#dc2626", "#ea580c"]
+      },
+      {
+        "type": "metric_cards",
+        "metrics": [
+          {"label": "Total Revenue", "value": 447956.98, "format": "currency"},
+          {"label": "Net Profit", "value": 220475.83, "format": "currency"},
+          {"label": "Profit Margin", "value": 49.2, "format": "percentage"},
+          {"label": "Avg Monthly Revenue", "value": 63993.85, "format": "currency"}
+        ]
+      }
+    ]
+  },
+  "data_quality_notes": [
+    "May 2025 salary data is incomplete (shows 0)",
+    "Tax values alternate between 10.8 and 0, suggesting periodic tax payments",
+    "Forecast data includes both monthly actuals and weekly projections",
+    "Some forecast columns contain calculated projections rather than actuals"
+  ],
+  "integration_recommendations": {
+    "react_components": [
+      "Create separate components for Revenue, Expenses, and Forecast sections",
+      "Use React Chart.js or Recharts for visualizations",
+      "Implement date range filtering for different time periods",
+      "Add export functionality for filtered data"
+    ],
+    "data_structure": [
+      "Store time series data in arrays with consistent date formatting",
+      "Use nested objects for different metric categories",
+      "Implement data validation for missing or inconsistent values",
+      "Create utility functions for calculating derived metrics"
+    ]
+  }
+}
